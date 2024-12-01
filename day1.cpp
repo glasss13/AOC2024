@@ -52,7 +52,7 @@ int part2(vector<string> lines) {
 }
 
 int main() {
-    ifstream file("input.txt");
+    ifstream file("inputs/day1.txt");
 
     string line;
     vector<string> lines;

@@ -1,3 +1,5 @@
 .clangd
 out
-input.txt
+inputs/
+.cache
+build
