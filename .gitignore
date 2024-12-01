@@ -3,3 +3,4 @@ out
 inputs/
 .cache
 build
+.env
