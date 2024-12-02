@@ -1,9 +1,4 @@
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <unordered_set>
-#include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -21,7 +16,7 @@ pair<vector<int>, vector<int>> parse_input(vector<string> const& lines) {
         col2.push_back(b_num);
     }
 
-    return { col1, col2 };
+    return {col1, col2};
 }
 
 int part1(vector<string> lines) {

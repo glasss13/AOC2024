@@ -4,3 +4,4 @@ inputs/
 .cache
 build
 .env
+compile_commands.json
