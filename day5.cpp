@@ -22,91 +22,92 @@ unordered_map<int, unordered_set<int>> parse_ordering(
 
 pair<vector<string>, vector<string>> parse_components(
     const vector<string>& lines) {
-    vector<string> ordering;
-    vector<string> updates;
-    bool in_updates = false;
+    auto take_collect = [](auto range) {
+        return range |
+               views::take_while([](const string& x) { return !x.empty(); }) |
+               ranges::to<vector<string>>();
+    };
 
-    for (const auto& line : lines) {
-        if (line.empty()) {
-            in_updates = true;
-            continue;
-        }
-
-        if (in_updates) {
-            updates.push_back(line);
-        } else {
-            ordering.push_back(line);
-        }
-    }
-
-    return {ordering, updates};
+    return {take_collect(lines | views::all),
+            take_collect(lines | views::reverse)};
 }
 
 vector<int> parse_comma_delim(const string& str) {
-    vector<int> out;
-    for (auto x : str | views::split(',')) {
-        out.push_back(stoi(string_view(x)));
-    }
-    return out;
+    return str | views::split(',') |
+           views::transform([](auto x) { return stoi(string_view(x)); }) |
+           ranges::to<vector<int>>();
 }
 
 int part1(vector<string> lines) {
-    auto [ordering_in, updates] = parse_components(lines);
+    auto [ordering_in, updates_in] = parse_components(lines);
+
+    auto updates = updates_in | views::transform([](const string& update) {
+                       return parse_comma_delim(update);
+                   });
 
     auto ordering = parse_ordering(ordering_in);
 
-    int res = 0;
-
-    for (const string& update : updates) {
+    auto is_valid_update = [&](const vector<int>& update) {
         unordered_set<int> seen;
-        vector<int> nums = parse_comma_delim(update);
 
-        bool valid_line = true;
-        for (int n : nums) {
+        for (int n : update) {
             if (seen.contains(n)) {
-                valid_line = false;
+                return false;
             }
 
             seen.insert(ordering[n].begin(), ordering[n].end());
         }
+        return true;
+    };
 
-        if (!valid_line) continue;
+    auto valid_updates = updates | views::filter(is_valid_update);
 
-        res += nums[nums.size() / 2];
-    }
+    auto valid_medians =
+        valid_updates | views::transform([](const vector<int>& update) {
+            return update[update.size() / 2];
+        });
 
-    return res;
+    return ranges::fold_left(valid_medians, 0, plus{});
 }
 
 int part2(vector<string> lines) {
-    auto [ordering_in, updates] = parse_components(lines);
+    auto [ordering_in, updates_in] = parse_components(lines);
+
+    auto updates = updates_in | views::transform([](const string& update) {
+                       return parse_comma_delim(update);
+                   });
 
     auto ordering = parse_ordering(ordering_in);
 
-    int res = 0;
-
-    for (const string& update : updates) {
+    auto is_valid_update = [&](const vector<int>& update) {
         unordered_set<int> seen;
-        vector<int> nums = parse_comma_delim(update);
 
-        bool valid_line = true;
-        for (int n : nums) {
+        for (int n : update) {
             if (seen.contains(n)) {
-                valid_line = false;
+                return false;
             }
 
             seen.insert(ordering[n].begin(), ordering[n].end());
         }
+        return true;
+    };
 
-        if (valid_line) continue;
+    auto invalid_updates = updates | views::filter([&](const auto& x) {
+                               return !is_valid_update(x);
+                           });
 
-        ranges::sort(nums,
-                     [&](int a, int b) { return ordering[a].contains(b); });
+    auto sorted_updates = invalid_updates | views::transform([&](auto update) {
+                              ranges::sort(update, [&](int a, int b) {
+                                  return ordering[a].contains(b);
+                              });
+                              return update;
+                          });
 
-        res += nums[nums.size() / 2];
-    }
+    auto medians = sorted_updates | views::transform([](const auto& u) {
+                       return u[u.size() / 2];
+                   });
 
-    return res;
+    return ranges::fold_left(medians, 0, plus{});
 }
 
 int main() {
