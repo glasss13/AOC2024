@@ -120,6 +120,16 @@ int main() {
         full_input += line;
     }
 
+    auto p1_start = chrono::high_resolution_clock::now();
     cout << "part1: " << part1(lines) << '\n';
+    auto p2_start = chrono::high_resolution_clock::now();
     cout << "part2: " << part2(lines) << '\n';
+    auto p2_end = chrono::high_resolution_clock::now();
+
+    auto p1_time =
+        chrono::duration_cast<chrono::microseconds>(p2_start - p1_start);
+    auto p2_time =
+        chrono::duration_cast<chrono::microseconds>(p2_end - p2_start);
+    cout << "part1(µs): " << p1_time.count() << '\n';
+    cout << "part2(µs): " << p2_time.count() << '\n';
 }
