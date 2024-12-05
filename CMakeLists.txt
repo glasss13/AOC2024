@@ -12,7 +12,12 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(day1 day1.cpp)
 add_executable(day2 day2.cpp)
+add_executable(day3 day3.cpp)
+add_executable(day4 day4.cpp)
+add_executable(day5 day5.cpp)
 
-
+# target_link_libraries(day1 ${Boost_LIBRARIES})
+# target_link_libraries(day2 ${Boost_LIBRARIES})
+# target_link_libraries(day3 ${Boost_LIBRARIES})
 # target_link_libraries(tests PRIVATE gtest::gtest)
 

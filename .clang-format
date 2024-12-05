@@ -5,6 +5,7 @@ IndentWidth: 4
 TabWidth: 4
 UseCRLF: false
 UseTab: Never
+AccessModifierOffset: -4
 ---
 
 
