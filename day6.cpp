@@ -49,7 +49,6 @@ int part1(vector<string> lines) {
 
 bool infinite_loop(const vector<string>& lines, int row, int col,
                    int direction) {
-    // array<array<char, 130>, 130> seen{};
     vector<vector<char>> seen(lines.size(), vector<char>(lines[0].size(), 0));
 
     while (true) {
@@ -94,9 +93,9 @@ int part2(vector<string> lines) {
     int ret = 0;
     for (auto [i, j] : seen) {
         if (lines[i][j] == '.') {
-            vector<string> cp = lines;
-            cp[i][j] = '#';
-            ret += infinite_loop(cp, row, col, direction);
+            lines[i][j] = '#';
+            ret += infinite_loop(lines, row, col, direction);
+            lines[i][j] = '.';
         }
     }
 
@@ -119,13 +118,15 @@ int main() {
     auto p2_start = chrono::high_resolution_clock::now();
     auto p2 = part2(lines);
     auto p2_end = chrono::high_resolution_clock::now();
-    cout << "part1: " << p1 << '\n';
-    cout << "part2: " << p2 << '\n';
+    println("part1: {}", p1);
+    println("part2: {}", p2);
 
     auto p1_time =
         chrono::duration_cast<chrono::microseconds>(p2_start - p1_start);
     auto p2_time =
         chrono::duration_cast<chrono::microseconds>(p2_end - p2_start);
-    cout << "part1(µs): " << p1_time.count() << '\n';
-    cout << "part2(µs): " << p2_time.count() << '\n';
+    println("-----------------");
+    println("1: {}µs", p1_time.count());
+    println("2: {}µs", p2_time.count());
+    println("-----------------");
 }

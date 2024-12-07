@@ -17,7 +17,7 @@ int bfs(const vector<string>& data, int i, int j, int xmas_idx, int dir_idx) {
         return 1;
     }
 
-    return bfs(data, i + ALL_DIRS[dir_idx].first, j + ALL_DIRS[dir_idx].second,
+    return bfs(data, i + DIRS8[dir_idx].first, j + DIRS8[dir_idx].second,
                xmas_idx + 1, dir_idx);
 }
 
@@ -26,7 +26,7 @@ int part1(vector<string> lines) {
 
     for (int i = 0; i < lines.size(); ++i) {
         for (int j = 0; j < lines[i].size(); ++j) {
-            for (int dir = 0; dir < ALL_DIRS.size(); ++dir) {
+            for (int dir = 0; dir < DIRS8.size(); ++dir) {
                 res += bfs(lines, i, j, 0, dir);
             }
         }
