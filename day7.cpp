@@ -8,7 +8,7 @@ vector<pair<long long, vector<long long>>> parse_input(vector<string> lines) {
     vector<pair<long long, vector<long long>>> out;
     for (const auto& line : lines) {
         int idx = line.find(':');
-        long long target = stol(line.substr(0, idx));
+        long long target = stoll(line.substr(0, idx));
         auto vals = nums<ll>(line.substr(idx + 1));
         out.emplace_back(target, vals);
     }
