@@ -117,9 +117,9 @@ ll part2(vector<string> lines) {
     return ret;
 }
 
-int main() {
-    ifstream file("inputs/day12.txt");
-    // ifstream file("in.txt");
+int main(int argc, char** argv) {
+    ifstream file =
+        argc == 1 ? ifstream("inputs/day12.txt") : ifstream("sample.txt");
 
     string line;
     vector<string> lines;
