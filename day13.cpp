@@ -7,7 +7,7 @@ using namespace std;
 pair<ll, ll> parse_line(string const& line) {
     auto plus_pos = line.find('+');
     auto comma_pos = line.find(',');
-    auto a = stoll(line.substr(plus_pos + 1, comma_pos));
+    auto a = stoll(line.substr(plus_pos + 1, comma_pos - (plus_pos + 1)));
 
     plus_pos = line.find('+', comma_pos);
     auto b = stoll(line.substr(plus_pos + 1));
@@ -19,7 +19,7 @@ pair<ll, ll> parse_prize(string const& line) {
     auto equal_pos = line.find('=');
     auto comma_pos = line.find(',');
 
-    auto x = stoll(line.substr(equal_pos + 1, comma_pos));
+    auto x = stoll(line.substr(equal_pos + 1, comma_pos - (equal_pos + 1)));
     equal_pos = line.find('=', comma_pos);
     auto y = stoll(line.substr(equal_pos + 1));
 
