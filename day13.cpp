@@ -4,26 +4,15 @@
 
 using namespace std;
 
-pair<ll, ll> parse_line(string const& line) {
-    auto plus_pos = line.find('+');
-    auto comma_pos = line.find(',');
-    auto a = stoll(line.substr(plus_pos + 1, comma_pos - (plus_pos + 1)));
+pair<ll, ll> parse_line(string_view l, char delim = '+') {
+    auto p1 = l.find(delim) + 1;
+    auto p2 = l.rfind(delim) + 1;
 
-    plus_pos = line.find('+', comma_pos);
-    auto b = stoll(line.substr(plus_pos + 1));
+    ll a, b;
+    from_chars(l.begin() + p1, l.end(), a);
+    from_chars(l.begin() + p2, l.end(), b);
 
     return {a, b};
-}
-
-pair<ll, ll> parse_prize(string const& line) {
-    auto equal_pos = line.find('=');
-    auto comma_pos = line.find(',');
-
-    auto x = stoll(line.substr(equal_pos + 1, comma_pos - (equal_pos + 1)));
-    equal_pos = line.find('=', comma_pos);
-    auto y = stoll(line.substr(equal_pos + 1));
-
-    return {x, y};
 }
 
 ll part1(vector<string> lines) {
@@ -35,7 +24,7 @@ ll part1(vector<string> lines) {
 
         auto [x_1, y_1] = parse_line(a_line);
         auto [x_2, y_2] = parse_line(b_line);
-        auto [x, y] = parse_prize(prize_line);
+        auto [x, y] = parse_line(prize_line, '=');
 
         ll b = (y * x_1 - y_1 * x) / (x_1 * y_2 - y_1 * x_2);
 
@@ -59,7 +48,7 @@ ll part2(vector<string> lines) {
 
         auto [x_1, y_1] = parse_line(a_line);
         auto [x_2, y_2] = parse_line(b_line);
-        auto [x, y] = parse_prize(prize_line);
+        auto [x, y] = parse_line(prize_line, '=');
 
         x += 10000000000000;
         y += 10000000000000;
