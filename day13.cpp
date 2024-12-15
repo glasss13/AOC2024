@@ -16,27 +16,30 @@ pair<ll, ll> parse_line(string_view l, char delim = '+') {
 }
 
 ll part1(vector<string> lines) {
-    ll res = 0;
-    for (int i = 0; i < lines.size(); i += 4) {
-        string a_line = lines[i];
-        string b_line = lines[i + 1];
-        string prize_line = lines[i + 2];
+    auto chunks = lines | views::chunk(4);
 
-        auto [x_1, y_1] = parse_line(a_line);
-        auto [x_2, y_2] = parse_line(b_line);
-        auto [x, y] = parse_line(prize_line, '=');
+    auto tokens = chunks | views::transform([](auto chunk) {
+                      string a_line = chunk[0];
+                      string b_line = chunk[1];
+                      string prize_line = chunk[2];
 
-        ll b = (y * x_1 - y_1 * x) / (x_1 * y_2 - y_1 * x_2);
+                      auto [x_1, y_1] = parse_line(a_line);
+                      auto [x_2, y_2] = parse_line(b_line);
+                      auto [x, y] = parse_line(prize_line, '=');
 
-        ll a = (x - b * x_2) / x_1;
+                      ll b = (y * x_1 - y_1 * x) / (x_1 * y_2 - y_1 * x_2);
 
-        if (a * x_1 + b * x_2 == x && a * y_1 + b * y_2 == y && a >= 0 &&
-            b >= 0) {
-            res += a * 3 + b;
-        }
-    }
+                      ll a = (x - b * x_2) / x_1;
 
-    return res;
+                      if (a * x_1 + b * x_2 == x && a * y_1 + b * y_2 == y &&
+                          a >= 0 && b >= 0) {
+                          return a * 3 + b;
+                      } else {
+                          return 0ll;
+                      }
+                  });
+
+    return ranges::fold_left(tokens, 0ll, plus<ll>{});
 }
 
 ll part2(vector<string> lines) {
