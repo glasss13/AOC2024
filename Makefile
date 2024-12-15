@@ -16,3 +16,4 @@ clean:
 input:
 	mkdir -p inputs
 	curl -X GET "https://adventofcode.com/2024/day/$(DAY)/input" -b "session=$(SESSION)" > inputs/day$(DAY).txt
+	cat inputs/day$(DAY).txt
