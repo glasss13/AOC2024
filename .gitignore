@@ -5,3 +5,4 @@ inputs/
 build
 .env
 compile_commands.json
+sample.txt
