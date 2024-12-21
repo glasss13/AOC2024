@@ -27,6 +27,7 @@ add_executable(day14 day14.cpp)
 add_executable(day15 day15.cpp)
 add_executable(day16 day16.cpp)
 add_executable(day17 day17.cpp)
+add_executable(day18 day18.cpp)
 
 # target_link_libraries(day1 ${Boost_LIBRARIES})
 # target_link_libraries(day2 ${Boost_LIBRARIES})
